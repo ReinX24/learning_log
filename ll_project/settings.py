@@ -25,7 +25,8 @@ SECRET_KEY = "django-insecure-mar1_4vq--f+78re)0p$vp1i_o(cak07+*9+$gcu&dg=zf0!)3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", ".pythonanywhere.com"]
 
 # My settings
 # Redirecting the user to learning_logs index when they log in.
