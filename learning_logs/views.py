@@ -144,6 +144,22 @@ def delete_topic(request, topic_id):
     return render(request, "learning_logs/delete_topic.html", context)
 
 
+@login_required
+def delete_entry(request, entry_id):
+    """Delete an existing entry and return to entries page."""
+    entry = Entry.objects.get(id=entry_id)
+    topic = entry.topic
+
+    if request.method != "POST":
+        context = {"topic": topic, "entry": entry}
+    else:
+        entry.delete()
+        return redirect("learning_logs:topic", topic_id=topic.id)
+
+    context = {"topic": topic, "entry": entry}
+    return render(request, "learning_logs/delete_entry.html", context)
+
+
 def check_topic_owner(request, topic):
     """Checks if the current topic's owner is same with the current user."""
     if topic.owner != request.user:

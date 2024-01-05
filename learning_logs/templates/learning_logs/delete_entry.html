@@ -1,0 +1,28 @@
+{% extends 'learning_logs/base.html' %}
+
+{% block page_header %}
+<h2>Delete Entry</h2>
+{% endblock page_header %}
+
+{% block content %}
+
+<form action="{% url 'learning_logs:delete_entry' entry.id %}" method="POST">
+    {% csrf_token %}
+    <h2>Are you sure you want to delete this entry from {{ topic }}?</h2>
+    <button type="submit" class="btn btn-danger btn-md mx-1 mb-4">Delete</button>
+    <a class="btn btn-secondary btn-md mx-1 mb-4" href="{% url 'learning_logs:topic' topic.id %}">Cancel</a>
+
+    <div class="card mb-3">
+        <!-- Card header with timestamp and edit link -->
+        <h4 class="card-header">
+            {{ entry.date_added|date:'M d, Y H:i' }}
+            <small class="ms-2"><a class="btn btn-primary btn-md" href="{% url 'learning_logs:edit_entry' entry.id %}">
+                    Edit entry</a></small>
+        </h4>
+        <!-- Card body with entry text -->
+        <div class="card-body">{{ entry.text|linebreaks }}</div>
+    </div>
+
+</form>
+
+{% endblock content %}
