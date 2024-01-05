@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
+from django.urls import reverse
 
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
@@ -123,6 +124,24 @@ def edit_entry(request, entry_id):
 
     context = {"entry": entry, "topic": topic, "form": form}
     return render(request, "learning_logs/edit_entry.html", context)
+
+
+@login_required
+def delete_topic(request, topic_id):
+    """Delete an existing topic and return to topics page."""
+    topic = Topic.objects.get(id=topic_id)
+    entries = topic.entry_set.order_by("-date_added")
+
+    check_topic_owner(request, topic)
+
+    if request.method != "POST":
+        context = {"topic": topic, "entries": entries}
+    else:
+        topic.delete()
+        return redirect("learning_logs:topics")
+
+    context = {"topic": topic, "entries": entries}
+    return render(request, "learning_logs/delete_topic.html", context)
 
 
 def check_topic_owner(request, topic):
