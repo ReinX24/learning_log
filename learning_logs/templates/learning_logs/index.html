@@ -11,9 +11,22 @@
         </p>
         {% if user.is_authenticated %}
         <h2>Welcome, {{ user.username }}.</h2>
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-primary btn-lg mt-1 mx-1" href="{% url 'learning_logs:topics' %}">
+                Topics &raquo;</a>
+            <form action="{% url 'accounts:logout' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary btn-lg mt-1 mx-1">
+                    Log out &larr;</button>
+            </form>
+        </div>
         {% else %}
-        <a class="btn btn-primary btn-lg mt-1" href="{% url 'accounts:register' %}">
-            Register &raquo;</a>
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-primary btn-lg mt-1 mx-1" href="{% url 'accounts:register' %}">
+                Register &raquo;</a>
+            <a class="btn btn-secondary btn-lg mt-1 mx-1" href="{% url 'accounts:login' %}">
+                Login &rarr;</a>
+        </div>
         {% endif %}
     </div>
 </div>
