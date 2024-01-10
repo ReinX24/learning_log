@@ -150,6 +150,8 @@ def delete_entry(request, entry_id):
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
 
+    check_topic_owner(request, topic)
+
     if request.method != "POST":
         context = {"topic": topic, "entry": entry}
     else:
